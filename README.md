@@ -6,11 +6,16 @@
 
 ## What it is
 
-A **Claude skill** + a small Node helper script. When you have a real decision in front of you and one model isn't enough, you tell Claude "fire a council on this" and it runs a structured deliberation across multiple LLM vendors using your API keys.
+**Two Claude skills + a small Node helper script.** When you have a real decision in front of you and one model isn't enough, you tell Claude "fire a council on this" and it runs a structured deliberation. The bundle ships:
 
-The skill encodes the **§72 escalation ladder** — it starts cheap, escalates only when the seats disagree or hedge, caps cost at the level you set. Most questions stop at R0 (Claude alone, ~$0.02) or R1 (3 free seats, ~$0.05). Only ~5% of runs ever hit R3+.
+1. **`SKILL.md` — the SUPREME council** (this top-level skill). Multi-vendor R1-R4 with the §72 escalation ladder. Calls Groq / Gemini / OpenAI / Anthropic / DeepSeek / OpenRouter / Perplexity in parallel via your keys.
+2. **`inner-council/SKILL.md` — the Council of Five** (the INNER R0 tier). 5 Haiku personas (Contrarian, First Principles, Expansionist, Outsider, Executor) → anonymous peer review → Sonnet chairman synthesis. Claude-only, ~$0.02/run, ~20s, NEVER Opus. Defeats the AI yes-man bias.
 
-This is the open-source version of the [aicouncil.me](https://aicouncil.me) deliberation engine, distilled to a single skill file you drop into your Claude environment.
+The SUPREME council *uses* the INNER council as its R0 default tier. You can also invoke the Council of Five directly via `/council` or "convene the council" when you don't need multi-vendor diversity, just five sharp perspectives from Claude alone.
+
+The §72 escalation ladder starts cheap, escalates only when the seats disagree or hedge, caps cost at the level you set. Most questions stop at R0 (~$0.02) or R1 (~$0.05). Only ~5% of runs ever hit R3+.
+
+This is the open-source version of the [aicouncil.me](https://aicouncil.me) deliberation engine, distilled to skill files you drop into your Claude environment.
 
 ---
 
@@ -20,14 +25,18 @@ This is the open-source version of the [aicouncil.me](https://aicouncil.me) deli
 
 ```bash
 cd /your/project
-mkdir -p .claude/skills/aicouncil
-# Copy the bundle files into .claude/skills/aicouncil/
-# (SKILL.md, run-council.js, .env.example)
+mkdir -p .claude/skills/aicouncil .claude/skills/council-of-five
+
+# Copy the SUPREME council bundle (top-level files)
+cp SKILL.md run-council.js .env.example .claude/skills/aicouncil/
 cp .claude/skills/aicouncil/.env.example .claude/skills/aicouncil/.env
 # Open .env and paste your keys for the seats you want
+
+# Copy the INNER council (Council of Five)
+cp inner-council/SKILL.md .claude/skills/council-of-five/
 ```
 
-That's it. Next time you talk to Claude Code in that project, it'll auto-discover the skill.
+That's it. Next time you talk to Claude Code in that project, it auto-discovers BOTH skills. Trigger the SUPREME council with "fire a council on X"; trigger the INNER Council of Five with "/council" or "convene the council."
 
 ### Option B — Cowork
 

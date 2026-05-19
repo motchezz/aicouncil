@@ -84,10 +84,9 @@ When the user invokes the skill (says "fire a council on X", "run aicouncil on Y
 ### Step 2 - R0 INNER (default first pass)
 
 If R0 is the starting tier:
-- This is Claude only - no external keys needed.
-- Run 5 Haiku personas in parallel (Contrarian, First Principles, Expansionist, Outsider, Executor - see the `council-of-five` skill if separately installed; otherwise inline the prompts below).
-- Run anonymous peer review: each persona reviews the other 4's outputs without knowing who wrote what.
-- Sonnet chairman synthesizes.
+- This is Claude only - no external keys needed (only Anthropic via the Claude session itself).
+- Use the bundled `inner-council/SKILL.md` (Council of Five) — 5 Haiku personas in parallel (Contrarian, First Principles, Expansionist, Outsider, Executor) → anonymous peer review → Sonnet chairman synthesis. ~11 calls, ~$0.02, ~20s.
+- The full protocol + prompt templates live in `inner-council/SKILL.md`. NEVER use Opus.
 
 If the chairman's verdict has HIGH confidence + no contradictions -> deliver to user, stop.
 If the chairman flags hedging or disagreement -> escalate to R1.
