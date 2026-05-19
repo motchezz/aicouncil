@@ -1,0 +1,20 @@
+# Keys + secrets
+.env
+.env.local
+.env.*.local
+
+# Run outputs
+council-*.json
+runs/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
