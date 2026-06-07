@@ -227,7 +227,7 @@ The minimum viable setup: just Groq + Google + Anthropic keys covers R0-R2 for u
 ## Updates + community
 
 This skill is open-source. Updates ship at https://aicouncil.me.
-Report bugs / share use cases / request seats at: [GitHub Issues link]
+Report bugs / share use cases / request seats at: https://github.com/motchezz/aicouncil/issues
 
 ## Changelog
 
