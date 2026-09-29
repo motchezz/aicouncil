@@ -345,7 +345,61 @@ One letter separates a working purchase from a paperweight.
 - **Samsung:** `M378` = non-ECC UDIMM ✅ · `M391` = ECC UDIMM · `M393` = RDIMM ❌ · `M386` = LRDIMM ❌ · `M471` = SODIMM ❌
 - **SK Hynix:** `HMA...U6...` = UDIMM non-ECC ✅ · `U7` = ECC UDIMM · `R7`/`R8` = RDIMM ❌ · `S6` = SODIMM ❌
 - **Micron:** `...64...` = 64-bit = non-ECC ✅ · `...72...` = ECC ⚠️ · suffix `AZ` = unbuffered ✅, `PZ`/`PDZ` = Registered ❌
-- **Kingston:** `KVR26N19S8/8` — N = non-ECC ✅, S8 = single rank x8. `KVR26E...` E = ECC ⚠️. `KSM32R...` R = Registered ❌
+- **Kingston ValueRAM:** `KVR26N19S8/8` — N = non-ECC ✅, S8 = single rank x8. `KVR26E...` E = ECC ⚠️. `KSM32R...` R = Registered ❌
+
+**Kingston FURY full decode — the slash number is TOTAL KIT CAPACITY, not per stick.**
+This is the single easiest way to buy half the memory you thought you were buying. Kingston's own
+datasheet titles are explicit: `KF432C16BB1AK2/32` is documented as "32GB (16GB 2G x 64-Bit x 2
+pcs.)", i.e. two 16GB sticks, not two 32GB sticks.
+
+Fields in order, per Kingston's official part number decoder:
+
+| Field | Meaning |
+|---|---|
+| `KF` | Kingston FURY |
+| `4` | DDR4 |
+| `32` | 3200 MT/s (`36` = 3600, `40` = 4000) |
+| `C` | **UDIMM, non-ECC unbuffered** ✅ (`S` = SODIMM ❌) |
+| `16` | CL16 |
+| `B` | Beast (`I` = Impact, `R` = Renegade) |
+| `B` | Black heat spreader (blank = Blue, `R` = Red, `W` = White) |
+| next digit | module configuration: blank = 2Gx8, `1` = 1Gx8 |
+| next digit | revision: blank = 1st, `2` = 2nd, `3` = 3rd |
+| `A` | **RGB** (blank = non-RGB) |
+| `K2` | kit of 2 pieces (`K4` = kit of 4) |
+| `/NN` | **TOTAL capacity of the whole kit** |
+
+The two digits after the colour code are separate fields, not one. `KF432C16BB12AK2/32` is Black,
+1Gx8 components, 2nd revision, RGB. Proof they are separate: the same `2` appears on `/16`, `/32`
+and `/64` SKUs alike, so it cannot be capacity.
+
+Real DDR4-3200 CL16 kit SKUs, with what you actually get:
+
+| SKU | You get |
+|---|---|
+| `KF432C16BBK2/32`, `KF432C16BB1K2/32`, `KF432C16BB12AK2/32` | 32GB = **2 x 16GB** |
+| `KF432C16BBK2/64`, `KF432C16BBAK2/64`, `KF432C16BB2AK2/64` | 64GB = **2 x 32GB** |
+| `KF432C16BB/32`, `KF432C16BBA/32`, `KF432C16BB2A/32` | a **single** 32GB module |
+
+Rank matters for 4-DIMM builds. 16GB FURY modules ship in both ranks: the `1` config field (1Gx8
+components) gives **2Rx8 dual-rank** with XMP 16-18-18, while blank (2Gx8) gives **1Rx8
+single-rank** with XMP 16-20-20. Four dual-rank 16GB sticks is 4 ranks per channel, the worst case
+in §4.
+
+All FURY Beast DDR4 is non-ECC unbuffered UDIMM by construction, since the `C` field says so. The
+32GB modules are 2Rx8. SPD fallback is DDR4-2400 17-17-17 at 1.20V; XMP is 1.35V.
+
+**Heights, for CPU cooler clearance:** non-RGB Beast is 34.9mm, RGB Beast is about 42mm. The RGB
+models carry a translucent light diffuser strip along the top edge, which is how you tell them
+apart in a photo.
+
+**Genuine label fields** (observed on a real module): part number, a date/lot line, a
+`99U....-...` assembly number, voltage, `KIT OF 2` where applicable, `ASSY IN TAIWAN`, `Warranty
+Void If Removed`, UKCA and CE marks, and two QR codes. Kingston labels also use colour-shifting
+ink that reads red head-on and olive green at an angle. Verify part number and serial at
+kingston.com/en/support/product-verification. Note that labels and heat spreaders are **not** a
+sufficient authenticity test on their own: a documented scam fitted DDR4 chips to a DDR5 PCB
+inside a genuine Kingston FURY Beast spreader.
 - **Crucial:** `CT16G4DFD832A` — D = UDIMM ✅, S = SODIMM, R = RDIMM ❌, W = ECC UDIMM
 
 **Photo test:** 8 chips per side evenly spaced = non-ECC UDIMM ✅. 9 or 18 chips = ECC. A small
@@ -462,6 +516,39 @@ handled by the manufacturer, which sidesteps the seller entirely.
   import case by ~12%.
 - Whether eBay International Shipping covers Jordan — verify at checkout before bidding.
 - All eBay and Jordanian retailer prices, on an unblocked connection.
+
+---
+
+## 12. Outcome — what was actually bought (2026-09-29)
+
+Purchased on eBay before the local-market route was tried: **`KF432C16BB12AK2/32`**, seller
+`dyou-43` (4 feedback, 100% positive), **US $175**.
+
+Decoded, this is:
+
+| Property | Value |
+|---|---|
+| Total capacity | **32GB, as 2 x 16GB** (not 64GB) |
+| Speed / timings | DDR4-3200 CL16, XMP 16-18-18 at 1.35V |
+| Type | non-ECC unbuffered UDIMM, 288-pin |
+| Rank | 2Rx8 dual-rank per module (1Gx8 components) |
+| Lighting | RGB, so roughly 42mm tall |
+
+The listing title read "Desktop 32G RAM, 2 Modules", which is ambiguous but accurate: 32GB total.
+The `/32` on the label is decisive. The $175 price corroborates it, since a genuine 64GB kit was
+running $300-450 and $175 would have sat below the counterfeit floor in §8.
+
+**Consequences for the 64GB target:**
+
+- Installing this pair alone gives **32GB**, a real upgrade from 16GB but half the goal.
+- The existing 2 x 8GB still comes out. Mixing would fall back to JEDEC and lose the 3200 profile.
+- Reaching 64GB now means either a second identical kit (4 x 16GB dual-rank, which per §4 lands
+  at DDR4-2667 on Ryzen and 2T command rate), or returning this and buying a 2 x 32GB kit.
+- The 32GB-DIMM platform question in §2 becomes moot for this kit, since every DDR4 platform
+  handles 16GB modules. It returns only if a 2 x 32GB kit is bought later.
+
+Open: motherboard model still unknown, CPU cooler clearance against ~42mm RGB modules unverified,
+authenticity not yet checked against Kingston's verification page, MemTest86 not yet run.
 
 ---
 
